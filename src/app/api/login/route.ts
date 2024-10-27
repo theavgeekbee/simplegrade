@@ -29,7 +29,7 @@ export async function POST(req: NextRequest): Promise<Response> {
     const {username, password} = validateCredentials(body);
 
     const auth_result = await fetch(
-        `https://homeaccesscenterapi.vercel.app/api/assignments?link=${HAC_ENVIRONMENT}&user=${username}&pass=${password}`,
+        `https://homeaccesscenterapi.vercel.app/api/name?link=${HAC_ENVIRONMENT}&user=${username}&pass=${password}`,
         {
             method: 'GET',
             headers: {
