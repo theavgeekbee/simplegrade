@@ -26,7 +26,13 @@ export default function Home() {
         }).then(
             (res) => res.ok
         ).then(
-            (is_ok) => alert(is_ok ? "Logged in" : "Invalid credentials")
+            (is_ok) => {
+                if (is_ok) {
+                    window.location.href = "/panel?login_data=" + btoa(`${username}:${password}`);
+                } else {
+                    alert("Invalid credentials")
+                }
+            }
         ).catch(
             () => alert("An error occurred")
         ).finally(
