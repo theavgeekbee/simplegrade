@@ -14,7 +14,7 @@ export default function Grade(props: {grade: number}) {
     }
     return (
         <div className={`rounded-md p-2 flex items-center justify-center text-white ${getColor(props.grade)}`}>
-            {props.grade}
+            {isNaN(props.grade) ? "N/A" : props.grade}
         </div>
     )
 }

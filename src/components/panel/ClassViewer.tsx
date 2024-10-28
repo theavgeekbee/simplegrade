@@ -4,6 +4,7 @@ import {useSearchParams} from "next/navigation";
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import Grade from "@/components/panel/Grade";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Assignment {
     name: string;
@@ -50,22 +51,24 @@ function ClassViewer(props: { clazz: string }) {
                     <h1>{props.clazz}</h1>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Assignment</TableHead>
-                                <TableHead>Grade</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {data[props.clazz].map((assignment: Assignment, index: number) => (
-                                <TableRow key={index}>
-                                    <TableCell>{assignment.name}</TableCell>
-                                    <TableCell><Grade grade={parseFloat(assignment.grade)} /></TableCell>
+                    <ScrollArea className={"h-[50vh]"}>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Assignment</TableHead>
+                                    <TableHead>Grade</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {data[props.clazz].map((assignment: Assignment, index: number) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{assignment.name}</TableCell>
+                                        <TableCell><Grade grade={parseFloat(assignment.grade)}/></TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
                 </CardContent>
             </Card>
         );
