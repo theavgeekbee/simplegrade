@@ -5,17 +5,8 @@ import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import Grade from "@/components/panel/Grade";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {ClassData, ClientAssignment} from "@/lib/utils";
 
-interface Assignment {
-    name: string;
-    grade: string;
-    category: number;
-    weight: number;
-}
-
-interface ClassData {
-    [key: string]: Assignment[];
-}
 
 function ClassViewer(props: { clazz: string }) {
     const [data, setData] = React.useState<ClassData>({});
@@ -60,7 +51,7 @@ function ClassViewer(props: { clazz: string }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {data[props.clazz].map((assignment: Assignment, index: number) => (
+                                {data[props.clazz].map((assignment: ClientAssignment, index: number) => (
                                     <TableRow key={index}>
                                         <TableCell>{assignment.name}</TableCell>
                                         <TableCell><Grade grade={parseFloat(assignment.grade)}/></TableCell>

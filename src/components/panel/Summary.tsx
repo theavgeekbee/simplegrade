@@ -17,6 +17,8 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {Button} from "@/components/ui/button";
 import {Select, SelectTrigger, SelectContent, SelectItem, SelectValue} from "@/components/ui/select";
 import ClassView from "./ClassViewer";
+import MockCalculator from "@/components/panel/MockCalculator";
+import {Separator} from "@/components/ui/separator";
 
 function validate(value: string): number {
     // Remove anything that is not a number or a .
@@ -123,6 +125,40 @@ function LoadedSummary() {
                             View
                         </Button>
                         {viewClass && <ClassView clazz={selectedClass}/>}
+                    </DialogContent>
+                </Dialog>
+                <Separator orientation={"vertical"} className={"ml-1 mr-1"} />
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button>
+                            Mock Calculator
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Class Selector</DialogTitle>
+                            <DialogDescription>
+                                Select a class from the dropdown
+                            </DialogDescription>
+                        </DialogHeader>
+                        <Select onValueChange={(value) => setSelectedClass(value)}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Class" className={"text-white"} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {
+                                    Object.keys(data).map((key) => (
+                                        <SelectItem key={key} value={key}>
+                                            {key}
+                                        </SelectItem>
+                                    ))
+                                }
+                            </SelectContent>
+                        </Select>
+                        <Button className={"mt-2"} onClick={()=> setViewClass(true)}>
+                            View
+                        </Button>
+                        {viewClass && <MockCalculator clazz={selectedClass}/>}
                     </DialogContent>
                 </Dialog>
             </CardFooter>

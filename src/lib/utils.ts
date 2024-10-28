@@ -17,13 +17,14 @@ export class Assignment {
         this.assignment_type = assignment_type;
         this.weight = weight;
     }
-
-    toJSON() {
-        return {
-            name: this.name,
-            grade: this.grade,
-            assignment_type: this.assignment_type,
-            weight: this.weight
-        }
-    }
 }
+export interface ClientAssignment {
+    name: string;
+    grade: string;
+    assignment_type: number;
+    weight: number;
+}
+export interface ClassData {
+    [key: string]: ClientAssignment[];
+}
+
