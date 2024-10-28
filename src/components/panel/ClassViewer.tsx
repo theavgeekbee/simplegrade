@@ -2,12 +2,13 @@ import {Skeleton} from "@/components/ui/skeleton";
 import React, {Suspense, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
-import {Table, TableBody, TableCell, TableHeader, TableRow} from "@/components/ui/table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import Grade from "@/components/panel/Grade";
 
 interface Assignment {
     name: string;
     grade: string;
-    category: string;
+    category: number;
     weight: number;
 }
 
@@ -15,7 +16,7 @@ interface ClassData {
     [key: string]: Assignment[];
 }
 
-function ClassViewer(props: { className: string }) {
+function ClassViewer(props: { clazz: string }) {
     const [data, setData] = React.useState<ClassData>({});
     const params = useSearchParams();
 
@@ -40,31 +41,27 @@ function ClassViewer(props: { className: string }) {
         }
     }, [params]);
 
-    if (!data.hasOwnProperty(props.className)) {
+    if (!data.hasOwnProperty(props.clazz)) {
         return <ClassViewerSkeleton/>;
     } else {
         return (
-            <Card className={"w-full"}>
+            <Card className={"w-full dark"}>
                 <CardHeader>
-                    <h1>{props.className}</h1>
+                    <h1>{props.clazz}</h1>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHeader>Assignment</TableHeader>
-                                <TableHeader>Grade</TableHeader>
-                                <TableHeader>Category</TableHeader>
-                                <TableHeader>Weight</TableHeader>
+                                <TableHead>Assignment</TableHead>
+                                <TableHead>Grade</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {data[props.className].map((assignment: Assignment, index: number) => (
+                            {data[props.clazz].map((assignment: Assignment, index: number) => (
                                 <TableRow key={index}>
                                     <TableCell>{assignment.name}</TableCell>
-                                    <TableCell>{assignment.grade}</TableCell>
-                                    <TableCell>{assignment.category}</TableCell>
-                                    <TableCell>{assignment.weight}</TableCell>
+                                    <TableCell><Grade grade={parseFloat(assignment.grade)} /></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -83,10 +80,10 @@ function ClassViewerSkeleton() {
     )
 }
 
-export default function ClassView({className}: { className: string }) {
+export default function ClassView(props: { clazz: string }) {
     return (
         <Suspense fallback={<ClassViewerSkeleton/>}>
-            <ClassViewer className={className}/>
+            <ClassViewer clazz={props.clazz}/>
         </Suspense>
     )
 }

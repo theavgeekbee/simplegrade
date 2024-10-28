@@ -3,7 +3,7 @@
 import React, {Suspense} from "react";
 import {useSearchParams} from "next/navigation";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter} from "@/components/ui/table";
+import {Table, TableHeader, TableRow, TableHead, TableBody, TableCell} from "@/components/ui/table";
 import {
     Dialog,
     DialogContent,
@@ -15,6 +15,8 @@ import {
 import Grade from "@/components/panel/Grade";
 import {Skeleton} from "@/components/ui/skeleton";
 import {Button} from "@/components/ui/button";
+import {Select, SelectTrigger, SelectContent, SelectItem, SelectValue} from "@/components/ui/select";
+import ClassView from "./ClassViewer";
 
 function validate(value: string): number {
     // Remove anything that is not a number or a .
@@ -35,6 +37,8 @@ class SummaryData {
 
 function LoadedSummary() {
     const [data, setData] = React.useState(new SummaryData({"state": "0"}));
+    const [selectedClass, setSelectedClass] = React.useState("");
+    const [viewClass, setViewClass] = React.useState(false);
     const params = useSearchParams();
 
     React.useEffect(() => {
@@ -94,14 +98,31 @@ function LoadedSummary() {
                             View Grades
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className={"dark"}>
+                    <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Are you absolutely sure?</DialogTitle>
+                            <DialogTitle>Class Selector</DialogTitle>
                             <DialogDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
+                                Select a class from the dropdown
                             </DialogDescription>
                         </DialogHeader>
+                        <Select onValueChange={(value) => setSelectedClass(value)}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Class" className={"text-white"} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {
+                                    Object.keys(data).map((key) => (
+                                        <SelectItem key={key} value={key}>
+                                            {key}
+                                        </SelectItem>
+                                    ))
+                                }
+                            </SelectContent>
+                        </Select>
+                        <Button className={"mt-2"} onClick={()=> setViewClass(true)}>
+                            View
+                        </Button>
+                        {viewClass && <ClassView clazz={selectedClass}/>}
                     </DialogContent>
                 </Dialog>
             </CardFooter>
